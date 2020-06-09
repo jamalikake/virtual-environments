@@ -65,10 +65,11 @@ Set-JavaPath -Version 11
 Set-JavaPath -Version 13
 
 # Install Java tools
-# Force chocolatey to ignore dependencies on Ant and Maven or else they will download the Oracle JDK
+# Force chocolatey to ignore dependencies on Ant, Maven and JMeter or else they will download the Oracle JDK
 Choco-Install -PackageName ant -ArgumentList "-i"
 Choco-Install -PackageName maven -ArgumentList "-i", "--version=3.6.3"
 Choco-Install -PackageName gradle
+Choco-Install -PackageName jmeter -ArgumentList "-i"
 
 # Move maven variables to Machine. They may not be in the environment for this script so we need to read them from the registry.
 $userEnvironmentKey = 'Registry::HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'

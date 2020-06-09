@@ -68,9 +68,16 @@ rm gradleLatest.zip
 ln -s /usr/share/gradle-"${gradleVersion}"/bin/gradle /usr/bin/gradle
 echo "GRADLE_HOME=/usr/share/gradle" | tee -a /etc/environment
 
+# Install JMeter
+curl -sL https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.3.zip -o jmeter.zip
+unzip -d /usr/share jmeter.zip
+rm jmeter.zip
+ln -s /usr/share/apache-jmeter-5.3/bin/jmeter /usr/bin/jmeter
+echo "JMETER_HOME=/usr/share/apache-jmeter-5.3" | tee -a /etc/environment
+
 # Run tests to determine that the software installed as expected
 echo "Testing to make sure that script performed as expected, and basic scenarios work"
-for cmd in gradle java javac mvn ant; do
+for cmd in gradle java javac mvn jmeter ant; do
     if ! command -v $cmd; then
         echo "$cmd was not installed or found on path"
         exit 1
@@ -89,3 +96,4 @@ DocumentInstalledItemIndent "12 ($(/usr/lib/jvm/zulu-12-azure-amd64/bin/java -sh
 DocumentInstalledItem "Ant ($(ant -version))"
 DocumentInstalledItem "Gradle ${gradleVersion}"
 DocumentInstalledItem "Maven ($(mvn -version | head -n 1))"
+DocumentInstalledItem "Apache JMeter ($(jmeter --version | grep -o "[0-9]\.[0-9]\.[0-9]"))"
